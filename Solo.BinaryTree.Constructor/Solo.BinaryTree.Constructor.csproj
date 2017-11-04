@@ -41,7 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorythm.cs" />
+    <Compile Include="Api.cs" />
+    <Compile Include="Core\BaseAction.cs" />
+    <Compile Include="Core\CommandResult.cs" />
+    <Compile Include="Core\IAction.cs" />
+    <Compile Include="Parser\BinaryTreeNodeModel.cs" />
+    <Compile Include="Parser\BinaryTreeParseArguments.cs" />
+    <Compile Include="Parser\IBinaryTreeParseAlgorythm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tree.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,100 +1,104 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Solo.BinaryTree.Constructor.Core;
+using Solo.BinaryTree.Constructor.Parser;
 
 namespace Solo.BinaryTree.Constructor
 {
-    public interface IAction<in TArgs>
-    {
-        void Process(TArgs arguments);
-    }
-
-    public interface IBinaryTreeParseAlgorythm
-    {
-        BinaryTreeParseResult ParseBinaryTree(BinaryTreeParseArguments arguments);
-    }
-
     public class ChainedBinaryTreeParser : IBinaryTreeParseAlgorythm
     {
+        public static readonly ChainedBinaryTreeParser Instance = new ChainedBinaryTreeParser(new BinaryTreeParseAction[0]);
+
         public ChainedBinaryTreeParser(IEnumerable<BinaryTreeParseAction> actions)
         {
-            Actions = new List<BinaryTreeParseAction>(actions);
+            Actions = new List<IAction<BinaryTreeParseArguments>>(actions);
         }
 
-        public List<BinaryTreeParseAction> Actions { get; }
+        public List<IAction<BinaryTreeParseArguments>> Actions { get; }
 
-        public BinaryTreeParseResult ParseBinaryTree(BinaryTreeParseArguments arguments)
+        public CommandResult<Tree> ParseBinaryTree(BinaryTreeParseArguments arguments)
         {
-            Actions.ForEach(action => action.Execute(arguments));
+            Actions.ForEach(action => action.Process(arguments));
 
-            return new BinaryTreeParseResult(arguments.Result, string.Join(Environment.NewLine, arguments.Messages));
-        }
-    }
-
-    public abstract class BaseAction<TArgs> : IAction<TArgs>
-    {
-        public void Process(TArgs arguments)
-        {
-            if (!CanExecute(arguments))
-            {
-                return;
-            }
-
-            Execute(arguments);
-        }
-
-        public abstract void Execute(TArgs args);
-
-        public virtual bool CanExecute(TArgs args)
-        {
-            return true;
+            return new CommandResult<Tree>(arguments.Result, string.Join(Environment.NewLine, arguments.Messages));
         }
     }
 
     public abstract class BinaryTreeParseAction : BaseAction<BinaryTreeParseArguments> { }
 
-    public class BinaryTreeParseArguments
+    public class DescribeTreeFromStreamContext : BinaryTreeParseAction
     {
-        public List<string> Messages { get; } = new List<string>();
-        public Tree Result { get; set; }
-        public StreamReader StreamReader { get; set; }
-    }
-
-    public struct BinaryTreeParseResult
-    {
-        private readonly Tree result;
-
-        public Tree Result
+        public override void Execute(BinaryTreeParseArguments args)
         {
-            get
-            {
-                if (result == null)
-                    throw new InvalidOperationException("Result has no value.");
+            args.TextStrings = this.DeclareEnumerableStrings(args.StreamReader);
+        }
 
-                return result;
+        public virtual IEnumerable<string> DeclareEnumerableStrings(StreamReader streamReader)
+        {
+            string str;
+            while ((str = streamReader.ReadLine()) != null)
+            {
+                yield return str;
             }
         }
 
-        public bool IsSuccess => result != null;
-
-        public bool IsFailure => !IsSuccess;
-
-        public string FailureMessage { get; }
-
-        public BinaryTreeParseResult(Tree result, string failureMessage)
+        public override bool CanExecute(BinaryTreeParseArguments args)
         {
-            if (result == null && string.IsNullOrWhiteSpace(failureMessage))
-            {
-                throw new InvalidOperationException("Message has to be provided for a non-specified result.");
-            }
-
-            this.result = result;
-            FailureMessage = failureMessage;
+            return base.CanExecute(args) && args.StreamReader != null && args.TextStrings == null;
         }
     }
 
-    public class Tree
+    public class DescribeTreeFromStringList : BinaryTreeParseAction
     {
-        
+        public override void Execute(BinaryTreeParseArguments args)
+        {
+            args.NodeModels = this.DeclareEnumerableNodes(args.TextStrings);
+        }
+
+        public virtual IEnumerable<BinaryTreeNodeModel> DeclareEnumerableNodes(IEnumerable<string> streamNodes)
+        {
+            return streamNodes.Select(this.ParseString);
+        }
+
+        public virtual BinaryTreeNodeModel ParseString(string line)
+        {
+            var members = line.Split(new[] {' ', ','}, StringSplitOptions.RemoveEmptyEntries);
+
+            if (members.Length != 3)
+            {
+                throw new ArgumentException(
+                    "A line should contain 3 members in format similar to: 'Root, LeftNode, RightNode'.", nameof(line));
+            }
+
+            return new BinaryTreeNodeModel()
+            {
+                Root = members[0],
+                Left = members[1],
+                Right = members[2]
+            };
+        }
+
+        public override bool CanExecute(BinaryTreeParseArguments args)
+        {
+            return base.CanExecute(args) && args.TextStrings != null && args.NodeModels == null;
+        }
+    }
+
+    public class CreateTreeFromParsedValues : BinaryTreeParseAction
+    {
+        public override void Execute(BinaryTreeParseArguments args)
+        {
+            foreach (var model in args.NodeModels)
+            {
+                CommandResult this.Process();
+            }
+        }
+
+        public override bool CanExecute(BinaryTreeParseArguments args)
+        {
+            return base.CanExecute(args) && args.NodeModels != null;
+        }
     }
 }
