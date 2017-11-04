@@ -7,13 +7,8 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
         public override void Execute(BinaryTreeParseArguments args)
         {
             var tree = args.SubtreesDictionary.First().Value;
-
-            while (tree.Parent != null)
-            {
-                tree = tree.Parent;
-            }
-
-            args.Result = tree;
+            
+            args.Result = tree.NavigateToRoot();
         }
 
         public override bool CanExecute(BinaryTreeParseArguments args)

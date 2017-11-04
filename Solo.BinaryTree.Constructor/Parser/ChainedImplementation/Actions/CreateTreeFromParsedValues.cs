@@ -45,65 +45,53 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
                 root = createRootResult.Result;
                 subtreesDictionary.Add(node.Root, root);
             }
-
-            var key = node.Left;
-            if (key != "#")
+            
+            CommandResult processLeft = ProcessChild(subtreesDictionary, node.Left, root, BinaryChildrenEnum.Left);
+            if (processLeft.IsFailure)
             {
-                if (subtreesDictionary.ContainsKey(key))
-                {
-                    var tree = subtreesDictionary[key];
+                return CommandResult.Failure(processLeft.FailureMessage);
+            }
 
-                    if (tree.Parent != null)
+            CommandResult processRight = ProcessChild(subtreesDictionary, node.Right, root, BinaryChildrenEnum.Right);
+            if (processRight.IsFailure)
+            {
+                return CommandResult.Failure(processRight.FailureMessage);
+            }
+
+            return CommandResult.Ok();
+        }
+
+        protected virtual CommandResult ProcessChild(Dictionary<string, Tree> subtreesDictionary, string key, Tree root,
+            BinaryChildrenEnum childrenEnum)
+        {
+            if (key == "#") return CommandResult.Ok();
+
+            if (subtreesDictionary.ContainsKey(key))
+            {
+                var tree = subtreesDictionary[key];
+
+                if (tree.Parent != null)
+                {
                     {
                         return CommandResult.Failure(
                             String.Format(
                                 "Algorythm found a node [{0}] referenced twice by [{1}] and [{2}], which is not possible in tree structures, please review the tree.",
                                 key, tree.Parent.Data, root.Data));
                     }
-
-                    root.OverrideNode(tree, BinaryChildrenEnum.Left);
                 }
-                else
-                {
-                    var addLeft = root.AddNode(key, BinaryChildrenEnum.Left);
-                    if (addLeft.IsFailure)
-                    {
-                        return CommandResult.Failure(addLeft.FailureMessage);
-                    }
 
-                    subtreesDictionary.Add(key, root.Left);
-                }
+                root.OverrideNode(tree, childrenEnum);
             }
-
-            key = node.Right;
-            if (key != "#")
+            else
             {
-                if (subtreesDictionary.ContainsKey(key))
+                var addRight = root.AddNode(key, childrenEnum);
+                if (addRight.IsFailure)
                 {
-                    var tree = subtreesDictionary[key];
-
-                    if (tree.Parent != null)
-                    {
-                        return CommandResult.Failure(
-                            String.Format(
-                                "Algorythm found a node [{0}] referenced twice by [{1}] and [{2}], which is not possible in tree structures, please review the tree.",
-                                key, tree.Parent.Data, root.Data));
-                    }
-
-                    root.OverrideNode(tree, BinaryChildrenEnum.Right);
+                    return CommandResult.Failure(addRight.FailureMessage);
                 }
-                else
-                {
-                    var addRight = root.AddNode(key, BinaryChildrenEnum.Right);
-                    if (addRight.IsFailure)
-                    {
-                        return CommandResult.Failure(addRight.FailureMessage);
-                    }
 
-                    subtreesDictionary.Add(key, root.Right);
-                }
+                subtreesDictionary.Add(key, root.Right);
             }
-
             return CommandResult.Ok();
         }
 
