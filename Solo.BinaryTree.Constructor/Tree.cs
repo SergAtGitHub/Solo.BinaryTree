@@ -5,7 +5,7 @@
         public string Data { get; set; }
 
         public Tree Left { get; set; }
-        public Tree Righ { get; set; }
+        public Tree Right { get; set; }
         public Tree Parent { get; set; }
     }
 }

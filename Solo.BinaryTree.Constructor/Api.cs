@@ -2,6 +2,7 @@
 using System.Data;
 using System.IO;
 using Solo.BinaryTree.Constructor.Parser;
+using Solo.BinaryTree.Constructor.Parser.ChainedImplementation;
 
 namespace Solo.BinaryTree.Constructor
 {
