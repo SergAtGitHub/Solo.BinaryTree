@@ -4,6 +4,16 @@ using Solo.BinaryTree.Constructor.Core;
 
 namespace Solo.BinaryTree.Constructor
 {
+    public static class TreeMessages
+    {
+
+        public static readonly string CannotSpecifyChildBecauseItAlreadyHasParent =
+                "The node with data: [{0}] cannot override a [{1}] node with data [{2}], because it already has a parent with data: [{3}].";
+
+        public static readonly string CannotAddReferenceTwice = "You're trying to add a chilren twice.";
+        public static string CanotCreateTreeWithoutData = "Cannot create a node without a data.";
+    }
+
     public class Tree
     {
         public string Data { get; }
@@ -21,7 +31,7 @@ namespace Solo.BinaryTree.Constructor
         {
             if (string.IsNullOrWhiteSpace(data))
             {
-                return CommandResult<Tree>.Failure("Cannot create a node without a data.");
+                return CommandResult<Tree>.Failure(TreeMessages.CanotCreateTreeWithoutData);
             }
 
             return CommandResult<Tree>.Ok(new Tree(data));
@@ -33,7 +43,18 @@ namespace Solo.BinaryTree.Constructor
             {
                 if (newNode.Parent != this)
                 {
-                    CommandResult.Failure("Cannot specify this as a child because it already has a parent.");
+                    var failure = string.Format(TreeMessages.CannotSpecifyChildBecauseItAlreadyHasParent,
+                        this.Data, nameof(binaryChildrenEnum), newNode.Data, newNode.Parent.Data);
+
+                    CommandResult.Failure(failure);
+                }
+                else
+                {
+                    if (binaryChildrenEnum == BinaryChildrenEnum.Left && this.Right == newNode
+                        || binaryChildrenEnum == BinaryChildrenEnum.Right && this.Left == newNode)
+                    {
+                        CommandResult.Failure(TreeMessages.CannotAddReferenceTwice);
+                    }
                 }
             }
             else

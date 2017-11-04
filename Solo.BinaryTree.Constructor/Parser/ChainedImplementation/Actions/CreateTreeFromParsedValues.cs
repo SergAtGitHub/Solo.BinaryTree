@@ -66,33 +66,31 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
         {
             if (key == "#") return CommandResult.Ok();
 
-            if (subtreesDictionary.ContainsKey(key))
-            {
-                var tree = subtreesDictionary[key];
+            var dictionaryResult = GetFromDictionaryOrAdd(subtreesDictionary, key);
 
-                if (tree.Parent != null)
+            if (dictionaryResult.IsFailure)
+            {
+                return CommandResult.Failure(dictionaryResult.FailureMessage);
+            }
+
+            return root.OverrideNode(dictionaryResult.Result, childrenEnum);
+        }
+
+        protected virtual CommandResult<Tree> GetFromDictionaryOrAdd(Dictionary<string, Tree> subtreesDictionary, string key)
+        {
+            if (!subtreesDictionary.ContainsKey(key))
+            {
+                var createTreeResult = Tree.Create(key);
+
+                if (createTreeResult.IsFailure)
                 {
-                    {
-                        return CommandResult.Failure(
-                            String.Format(
-                                "Algorythm found a node [{0}] referenced twice by [{1}] and [{2}], which is not possible in tree structures, please review the tree.",
-                                key, tree.Parent.Data, root.Data));
-                    }
+                    return CommandResult<Tree>.Failure(createTreeResult.FailureMessage);
                 }
 
-                root.OverrideNode(tree, childrenEnum);
+                subtreesDictionary.Add(key, createTreeResult.Result);
             }
-            else
-            {
-                var addRight = root.AddNode(key, childrenEnum);
-                if (addRight.IsFailure)
-                {
-                    return CommandResult.Failure(addRight.FailureMessage);
-                }
 
-                subtreesDictionary.Add(key, root.Right);
-            }
-            return CommandResult.Ok();
+            return CommandResult.Ok(subtreesDictionary[key]);
         }
 
         public override bool CanExecute(BinaryTreeParseArguments args)

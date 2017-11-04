@@ -68,6 +68,11 @@ namespace Solo.BinaryTree.Constructor.Core
             return new CommandResult();
         }
 
+        public static CommandResult<T> Ok<T>(T result) where T : class
+        {
+            return CommandResult<T>.Ok(result);
+        }
+
         public static CommandResult Failure(string message)
         {
             if (string.IsNullOrWhiteSpace(message))
@@ -76,6 +81,11 @@ namespace Solo.BinaryTree.Constructor.Core
             }
 
             return new CommandResult(message);
+        }
+
+        public static CommandResult<T> Failure<T>(string message) where T : class
+        {
+            return CommandResult<T>.Failure(message);
         }
     }
 }
