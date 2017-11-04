@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Solo.BinaryTree.Constructor
@@ -11,6 +12,23 @@ namespace Solo.BinaryTree.Constructor
     public interface IBinaryTreeParseAlgorythm
     {
         BinaryTreeParseResult ParseBinaryTree(BinaryTreeParseArguments arguments);
+    }
+
+    public class ChainedBinaryTreeParser : IBinaryTreeParseAlgorythm
+    {
+        public ChainedBinaryTreeParser(IEnumerable<BinaryTreeParseAction> actions)
+        {
+            Actions = new List<BinaryTreeParseAction>(actions);
+        }
+
+        public List<BinaryTreeParseAction> Actions { get; }
+
+        public BinaryTreeParseResult ParseBinaryTree(BinaryTreeParseArguments arguments)
+        {
+            Actions.ForEach(action => action.Execute(arguments));
+
+            return new BinaryTreeParseResult(arguments.Result, string.Join(Environment.NewLine, arguments.Messages));
+        }
     }
 
     public abstract class BaseAction<TArgs> : IAction<TArgs>
@@ -37,6 +55,7 @@ namespace Solo.BinaryTree.Constructor
 
     public class BinaryTreeParseArguments
     {
+        public List<string> Messages { get; } = new List<string>();
         public Tree Result { get; set; }
         public StreamReader StreamReader { get; set; }
     }
