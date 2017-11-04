@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
-    <Compile Include="BinaryChildrenEnum.cs" />
+    <Compile Include="Infrastructure\BinaryChildrenEnum.cs" />
     <Compile Include="Core\BaseAction.cs" />
     <Compile Include="Core\CommandResult.cs" />
     <Compile Include="Core\IAction.cs" />
@@ -52,10 +52,14 @@
     <Compile Include="Parser\ChainedImplementation\Actions\DescribeTreeFromStringList.cs" />
     <Compile Include="Parser\ChainedImplementation\Actions\SpecifyResultFromDictionary.cs" />
     <Compile Include="Parser\ChainedImplementation\BinaryTreeParseAction.cs" />
+    <Compile Include="Parser\ChainedImplementation\ChainedBinaryTreeMessages.cs" />
     <Compile Include="Parser\ChainedImplementation\ChainedBinaryTreeParser.cs" />
     <Compile Include="Parser\IBinaryTreeParseAlgorythm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tree.cs" />
+    <Compile Include="TreeComparer.cs" />
+    <Compile Include="TreeExtensions.cs" />
+    <Compile Include="TreeMessages.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

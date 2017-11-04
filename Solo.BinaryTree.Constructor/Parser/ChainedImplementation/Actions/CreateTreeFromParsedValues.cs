@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Solo.BinaryTree.Constructor.Core;
+using Solo.BinaryTree.Constructor.Infrastructure;
 
 namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 {
@@ -22,30 +23,22 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 
         public virtual CommandResult ProcessModelInDictionary(BinaryTreeNodeModel node, Dictionary<string, Tree> subtreesDictionary)
         {
-            Tree root = null;
-            if (subtreesDictionary.ContainsKey(node.Root))
-            {
-                root = subtreesDictionary[node.Root];
-                if (root.Left != null || root.Right != null)
-                {
-                    return CommandResult.Failure(
-                        String.Format(
-                            "Duplicating entry with key [{0}] was found, please ensure that you don't have duplicates.",
-                            node.Root));
-                }
-            }
-            else
-            {
-                var createRootResult = Tree.Create(node.Root);
-                if (createRootResult.IsFailure)
-                {
-                    return CommandResult.Failure(createRootResult.FailureMessage);
-                }
+            var getRootResult = GetFromDictionaryOrAdd(subtreesDictionary, node.Root);
 
-                root = createRootResult.Result;
-                subtreesDictionary.Add(node.Root, root);
+            if (getRootResult.IsFailure)
+            {
+                return CommandResult.Failure(getRootResult.FailureMessage);
             }
-            
+
+            Tree root = getRootResult.Result;
+            if (root.Left != null || root.Right != null)
+            {
+                return CommandResult.Failure(
+                    String.Format(
+                        ChainedBinaryTreeMessages.DuplicatingEntryWasFound,
+                        node.Root, node.Left, node.Right, root.Left?.Data, root.Right?.Data));
+            }
+
             CommandResult processLeft = ProcessChild(subtreesDictionary, node.Left, root, BinaryChildrenEnum.Left);
             if (processLeft.IsFailure)
             {

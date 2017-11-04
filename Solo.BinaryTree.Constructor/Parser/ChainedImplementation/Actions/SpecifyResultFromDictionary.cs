@@ -13,7 +13,7 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 
         public override bool CanExecute(BinaryTreeParseArguments args)
         {
-            return base.CanExecute(args) && args.SubtreesDictionary.Count > 0;
+            return base.CanExecute(args) && args.SubtreesDictionary.Count > 0 && args.Messages.Count == 0;
         }
     }
 }

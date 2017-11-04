@@ -21,6 +21,14 @@ namespace Solo.BinaryTree.Constructor
             return BuildTree((TextReader) streamReader);
         }
 
+        public static Tree BuildTreeByStringInput(string input)
+        {
+            using (StringReader stringReader = new StringReader(input))
+            {
+                return BuildTree(stringReader);
+            }
+        }
+
         public static Tree BuildTree(TextReader textReader)
         {
             var binaryTreeParseArguments = new BinaryTreeParseArguments
@@ -35,7 +43,7 @@ namespace Solo.BinaryTree.Constructor
                 return parseResult.Result;
             }
 
-            throw new ArgumentException(parseResult.FailureMessage, nameof(textReader));
+            throw new InvalidOperationException(parseResult.FailureMessage);
         }
     }
 }
