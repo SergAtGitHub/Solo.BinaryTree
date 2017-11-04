@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Solo.BinaryTree.Constructor
+namespace Solo.BinaryTree.Constructor.Infrastructure
 {
     public class TreeComparer : IEqualityComparer<Tree>
     {

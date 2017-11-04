@@ -57,9 +57,9 @@
     <Compile Include="Parser\IBinaryTreeParseAlgorythm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tree.cs" />
-    <Compile Include="TreeComparer.cs" />
-    <Compile Include="TreeExtensions.cs" />
-    <Compile Include="TreeMessages.cs" />
+    <Compile Include="Infrastructure\TreeComparer.cs" />
+    <Compile Include="Infrastructure\TreeExtensions.cs" />
+    <Compile Include="Infrastructure\TreeMessages.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

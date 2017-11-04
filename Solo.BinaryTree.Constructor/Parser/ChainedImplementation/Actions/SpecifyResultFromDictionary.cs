@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Solo.BinaryTree.Constructor.Infrastructure;
 
 namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 {

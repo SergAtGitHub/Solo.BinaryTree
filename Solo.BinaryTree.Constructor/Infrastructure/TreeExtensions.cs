@@ -1,6 +1,4 @@
-﻿using Solo.BinaryTree.Constructor.Infrastructure;
-
-namespace Solo.BinaryTree.Constructor
+﻿namespace Solo.BinaryTree.Constructor.Infrastructure
 {
     public static class TreeExtensions
     {

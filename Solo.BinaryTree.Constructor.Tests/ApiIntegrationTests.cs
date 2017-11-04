@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Solo.BinaryTree.Constructor.Infrastructure;
 using Solo.BinaryTree.Constructor.Parser.ChainedImplementation;
 
 namespace Solo.BinaryTree.Constructor.Tests
@@ -47,8 +48,6 @@ Fox, Not, Active";
             {
                 Assert.AreEqual(expectedError, e.Message);
             }
-
-            
         }
     }
 }
