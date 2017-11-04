@@ -36,41 +36,74 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
             }
             else
             {
-                root = new Tree(){ Data = node.Root };
+                var createRootResult = Tree.Create(node.Root);
+                if (createRootResult.IsFailure)
+                {
+                    return CommandResult.Failure(createRootResult.FailureMessage);
+                }
+
+                root = createRootResult.Result;
                 subtreesDictionary.Add(node.Root, root);
             }
 
-            var processSubtree = ProcessSubtree(node.Left, subtreesDictionary, root);
-            if (processSubtree.IsFailure) return processSubtree;
-
-            processSubtree = ProcessSubtree(node.Right, subtreesDictionary, root);
-            if (processSubtree.IsFailure) return processSubtree;
-
-            return CommandResult.Ok();
-        }
-
-        protected CommandResult ProcessSubtree(string key, Dictionary<string, Tree> subtreesDictionary, Tree root)
-        {
-            if (subtreesDictionary.ContainsKey(key))
+            var key = node.Left;
+            if (key != "#")
             {
-                var tree = subtreesDictionary[key];
-
-                if (tree.Parent != null)
+                if (subtreesDictionary.ContainsKey(key))
                 {
-                    return CommandResult.Failure(
-                        String.Format(
-                            "Algorythm found a node [{0}] referenced twice by [{1}] and [{2}], which is not possible in tree structures, please review the tree.",
-                            key, tree.Parent.Data, root.Data));
-                }
+                    var tree = subtreesDictionary[key];
 
-                tree.Parent = root;
-                root.Right = tree;
+                    if (tree.Parent != null)
+                    {
+                        return CommandResult.Failure(
+                            String.Format(
+                                "Algorythm found a node [{0}] referenced twice by [{1}] and [{2}], which is not possible in tree structures, please review the tree.",
+                                key, tree.Parent.Data, root.Data));
+                    }
+
+                    root.OverrideNode(tree, BinaryChildrenEnum.Left);
+                }
+                else
+                {
+                    var addLeft = root.AddNode(key, BinaryChildrenEnum.Left);
+                    if (addLeft.IsFailure)
+                    {
+                        return CommandResult.Failure(addLeft.FailureMessage);
+                    }
+
+                    subtreesDictionary.Add(key, root.Left);
+                }
             }
-            else
+
+            key = node.Right;
+            if (key != "#")
             {
-                var tree = new Tree() {Data = key, Parent = root};
-                subtreesDictionary.Add(key, tree);
+                if (subtreesDictionary.ContainsKey(key))
+                {
+                    var tree = subtreesDictionary[key];
+
+                    if (tree.Parent != null)
+                    {
+                        return CommandResult.Failure(
+                            String.Format(
+                                "Algorythm found a node [{0}] referenced twice by [{1}] and [{2}], which is not possible in tree structures, please review the tree.",
+                                key, tree.Parent.Data, root.Data));
+                    }
+
+                    root.OverrideNode(tree, BinaryChildrenEnum.Right);
+                }
+                else
+                {
+                    var addRight = root.AddNode(key, BinaryChildrenEnum.Right);
+                    if (addRight.IsFailure)
+                    {
+                        return CommandResult.Failure(addRight.FailureMessage);
+                    }
+
+                    subtreesDictionary.Add(key, root.Right);
+                }
             }
+
             return CommandResult.Ok();
         }
 

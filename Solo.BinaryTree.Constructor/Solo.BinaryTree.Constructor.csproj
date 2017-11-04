@@ -40,13 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorythm.cs" />
     <Compile Include="Api.cs" />
+    <Compile Include="BinaryChildrenEnum.cs" />
     <Compile Include="Core\BaseAction.cs" />
     <Compile Include="Core\CommandResult.cs" />
     <Compile Include="Core\IAction.cs" />
     <Compile Include="Parser\BinaryTreeNodeModel.cs" />
     <Compile Include="Parser\BinaryTreeParseArguments.cs" />
+    <Compile Include="Parser\ChainedImplementation\Actions\CreateTreeFromParsedValues.cs" />
+    <Compile Include="Parser\ChainedImplementation\Actions\DescribeTreeFromStreamContext.cs" />
+    <Compile Include="Parser\ChainedImplementation\Actions\DescribeTreeFromStringList.cs" />
+    <Compile Include="Parser\ChainedImplementation\Actions\SpecifyResultFromDictionary.cs" />
+    <Compile Include="Parser\ChainedImplementation\BinaryTreeParseAction.cs" />
+    <Compile Include="Parser\ChainedImplementation\ChainedBinaryTreeParser.cs" />
     <Compile Include="Parser\IBinaryTreeParseAlgorythm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tree.cs" />

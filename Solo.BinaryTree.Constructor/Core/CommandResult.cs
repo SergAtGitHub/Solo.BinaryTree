@@ -23,15 +23,30 @@ namespace Solo.BinaryTree.Constructor.Core
 
         public string FailureMessage { get; }
 
-        public CommandResult(T result, string failureMessage)
+        private CommandResult(T result, string failureMessage)
         {
-            if (result == null && string.IsNullOrWhiteSpace(failureMessage))
-            {
-                throw new InvalidOperationException("Message has to be provided for a non-specified result.");
-            }
-
             this.result = result;
             FailureMessage = failureMessage;
+        }
+
+        public static CommandResult<T> Ok(T result)
+        {
+            if (result == null)
+            {
+                throw new InvalidOperationException("Result cannot be null.");
+            }
+
+            return new CommandResult<T>(result, String.Empty);
+        }
+
+        public static CommandResult<T> Failure(string failureMessage)
+        {
+            if (string.IsNullOrWhiteSpace(failureMessage))
+            {
+                throw new InvalidOperationException("Message has to be provided for a failure result.");
+            }
+
+            return new CommandResult<T>(null, failureMessage);
         }
     }
 

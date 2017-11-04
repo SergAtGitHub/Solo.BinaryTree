@@ -26,7 +26,12 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation
         {
             Actions.ForEach(action => action.Process(arguments));
 
-            return new CommandResult<Tree>(arguments.Result, string.Join(Environment.NewLine, arguments.Messages));
+            if (arguments.Result != null)
+            {
+                return CommandResult<Tree>.Ok(arguments.Result);
+            }
+
+            return CommandResult<Tree>.Failure(string.Join(Environment.NewLine, arguments.Messages));
         }
     }
 }
