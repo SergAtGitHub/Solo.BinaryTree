@@ -23,7 +23,7 @@ A, Quick, Brown";
                     .AddLeftAndStay("The").AddRightAndNavigateBack("Lazy").AddRightAndNavigateToIt("Jumps")
                     .AddLeftAndNavigateToRoot("Dog").AddRightAndNavigateToIt("Brown").AddRightAndNavigateToRoot("Over");
 
-            using (StreamReader streamReader = new StreamReader(input))
+            using (StringReader streamReader = new StringReader(input))
             {
                 var actualResult = Api.BuildTree(streamReader);
 

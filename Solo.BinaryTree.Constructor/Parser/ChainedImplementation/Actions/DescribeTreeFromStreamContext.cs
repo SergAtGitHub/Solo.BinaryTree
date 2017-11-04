@@ -7,10 +7,10 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
     {
         public override void Execute(BinaryTreeParseArguments args)
         {
-            args.TextStrings = this.DeclareEnumerableStrings(args.StreamReader);
+            args.TextStrings = this.DeclareEnumerableStrings(args.TextReader);
         }
 
-        public virtual IEnumerable<string> DeclareEnumerableStrings(StreamReader streamReader)
+        public virtual IEnumerable<string> DeclareEnumerableStrings(TextReader streamReader)
         {
             string str;
             while ((str = streamReader.ReadLine()) != null)
@@ -21,7 +21,7 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 
         public override bool CanExecute(BinaryTreeParseArguments args)
         {
-            return base.CanExecute(args) && args.StreamReader != null && args.TextStrings == null;
+            return base.CanExecute(args) && args.TextReader != null && args.TextStrings == null;
         }
     }
 }

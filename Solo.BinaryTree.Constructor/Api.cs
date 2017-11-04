@@ -18,9 +18,14 @@ namespace Solo.BinaryTree.Constructor
 
         public static Tree BuildTree(StreamReader streamReader)
         {
+            return BuildTree((TextReader) streamReader);
+        }
+
+        public static Tree BuildTree(TextReader textReader)
+        {
             var binaryTreeParseArguments = new BinaryTreeParseArguments
             {
-                StreamReader = streamReader
+                TextReader = textReader
             };
 
             var parseResult = Algorythm.ParseBinaryTree(binaryTreeParseArguments);
@@ -30,7 +35,7 @@ namespace Solo.BinaryTree.Constructor
                 return parseResult.Result;
             }
 
-            throw new ArgumentException(parseResult.FailureMessage, nameof(streamReader));
+            throw new ArgumentException(parseResult.FailureMessage, nameof(textReader));
         }
     }
 }
