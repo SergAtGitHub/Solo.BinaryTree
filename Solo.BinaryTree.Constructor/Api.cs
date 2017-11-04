@@ -3,6 +3,7 @@ using System.Data;
 using System.IO;
 using Solo.BinaryTree.Constructor.Parser;
 using Solo.BinaryTree.Constructor.Parser.ChainedImplementation;
+using Solo.BinaryTree.Constructor.Serializer;
 
 namespace Solo.BinaryTree.Constructor
 {
@@ -44,6 +45,23 @@ namespace Solo.BinaryTree.Constructor
             }
 
             throw new InvalidOperationException(parseResult.FailureMessage);
+        }
+
+        public static string Serialize(Tree tree)
+        {
+            using (StringWriter stringWriter = new StringWriter())
+            {
+                TreeSerializationArgs arguments = new TreeSerializationArgs()
+                {
+                    TextWriter = stringWriter,
+                    Formatter = InlineTreeFormatter.Instance,
+                    Tree = tree
+                };
+
+                TreeSerializer.Instance.Serialize(arguments);
+
+                return stringWriter.ToString();
+            }
         }
     }
 }

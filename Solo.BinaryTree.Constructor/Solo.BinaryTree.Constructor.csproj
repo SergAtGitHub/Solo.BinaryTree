@@ -41,10 +41,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
+    <Compile Include="Core\CommandArguments.cs" />
+    <Compile Include="Core\IQueryAnalyzer.cs" />
+    <Compile Include="Core\QueryArguments.cs" />
+    <Compile Include="Core\QueryResultAnalyzer.cs" />
     <Compile Include="Infrastructure\BinaryChildrenEnum.cs" />
     <Compile Include="Core\BaseAction.cs" />
     <Compile Include="Core\CommandResult.cs" />
     <Compile Include="Core\IAction.cs" />
+    <Compile Include="Infrastructure\Traverse\DepthTraverse.cs" />
+    <Compile Include="Infrastructure\Traverse\ITreeTraversalAlgorythm.cs" />
     <Compile Include="Parser\BinaryTreeNodeModel.cs" />
     <Compile Include="Parser\BinaryTreeParseArguments.cs" />
     <Compile Include="Parser\ChainedImplementation\Actions\CreateTreeFromParsedValues.cs" />
@@ -56,10 +62,12 @@
     <Compile Include="Parser\ChainedImplementation\ChainedBinaryTreeParser.cs" />
     <Compile Include="Parser\IBinaryTreeParseAlgorythm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serializer\ITreeSerializer.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="Infrastructure\TreeComparer.cs" />
     <Compile Include="Infrastructure\TreeExtensions.cs" />
     <Compile Include="Infrastructure\TreeMessages.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,7 +13,7 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 
         public virtual IEnumerable<BinaryTreeNodeModel> DeclareEnumerableNodes(IEnumerable<string> streamNodes)
         {
-            return streamNodes.Select(this.ParseString);
+            return streamNodes.Where(str => !string.IsNullOrWhiteSpace(str)).Select(this.ParseString);
         }
 
         public virtual BinaryTreeNodeModel ParseString(string line)

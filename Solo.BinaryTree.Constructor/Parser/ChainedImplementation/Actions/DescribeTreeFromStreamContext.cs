@@ -15,7 +15,10 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
             string str;
             while ((str = streamReader.ReadLine()) != null)
             {
-                yield return str;
+                if (!string.IsNullOrWhiteSpace(str))
+                {
+                    yield return str;
+                }
             }
         }
 

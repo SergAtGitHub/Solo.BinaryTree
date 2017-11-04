@@ -49,5 +49,49 @@ Fox, Not, Active";
                 Assert.AreEqual(expectedError, e.Message);
             }
         }
+
+        [TestMethod]
+        public void TreeInputGenerator_ShouldGenerateData()
+        {
+            string expectedResult =
+                @"Fox, The, Lazy
+Quick, Fox, Jumps
+Jumps, Dog, #
+Brown, #, Over
+A, Quick, Brown";
+
+            var tree =
+                Tree.Create("A").Result.AddLeftAndNavigateToIt("Quick").AddLeftAndNavigateToIt("Fox")
+                    .AddLeftAndStay("The").AddRightAndNavigateBack("Lazy").AddRightAndNavigateToIt("Jumps")
+                    .AddLeftAndNavigateToRoot("Dog").AddRightAndNavigateToIt("Brown").AddRightAndNavigateToRoot("Over");
+
+            string actualResult = Api.Serialize(tree);
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod]
+        public void WhenEmptyLinesAreComing_TreeBuilderShouldIgnoreThem()
+        {
+            var input = @"A, Quick, Brown
+Quick, Fox, Jumps
+Fox, The, Lazy
+
+
+Jumps, Dog, #
+
+Brown, #, Over
+";
+
+
+            var expectedResult =
+                Tree.Create("A").Result.AddLeftAndNavigateToIt("Quick").AddLeftAndNavigateToIt("Fox")
+                    .AddLeftAndStay("The").AddRightAndNavigateBack("Lazy").AddRightAndNavigateToIt("Jumps")
+                    .AddLeftAndNavigateToRoot("Dog").AddRightAndNavigateToIt("Brown").AddRightAndNavigateToRoot("Over");
+
+            Tree actualResult = Api.BuildTreeByStringInput(input);
+
+            Assert.IsTrue(TreeComparer.Instance.Equals(actualResult, expectedResult));
+        }
     }
 }
