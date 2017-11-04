@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Solo.BinaryTree.Constructor.Infrastructure;
 using Solo.BinaryTree.Constructor.Parser.ChainedImplementation;
@@ -67,7 +66,9 @@ A, Quick, Brown";
 
             string actualResult = Api.Serialize(tree);
 
-            Assert.AreEqual(expectedResult, actualResult);
+            CollectionAssert.AreEquivalent(
+                expectedResult.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries),
+                actualResult.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries));
         }
 
         [TestMethod]
