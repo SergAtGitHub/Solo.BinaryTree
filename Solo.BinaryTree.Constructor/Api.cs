@@ -49,12 +49,22 @@ namespace Solo.BinaryTree.Constructor
 
         public static string Serialize(Tree tree)
         {
+            return Serialize(tree, InlineTreeFormatter.Instance);
+        }
+
+        public static string Serialize(Tree tree, string serializationFormat)
+        {
+            return Serialize(tree, formatter: new InlineTreeFormatter(serializationFormat));
+        }
+
+        public static string Serialize(Tree tree, ITreeFormatter formatter)
+        {
             using (StringWriter stringWriter = new StringWriter())
             {
-                TreeSerializationArgs arguments = new TreeSerializationArgs()
+                TreeSerializationArgs arguments = new TreeSerializationArgs
                 {
                     TextWriter = stringWriter,
-                    Formatter = InlineTreeFormatter.Instance,
+                    Formatter = formatter,
                     Tree = tree
                 };
 

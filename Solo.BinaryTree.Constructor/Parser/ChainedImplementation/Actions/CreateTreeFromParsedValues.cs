@@ -63,7 +63,7 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
         protected virtual CommandResult ProcessChild(Dictionary<string, Tree> subtreesDictionary, string key, Tree root,
             BinaryChildrenEnum childrenEnum)
         {
-            if (key == "#") return CommandResult.Ok();
+            if (key == SpecialIndicators.NullNodeIndicator) return CommandResult.Ok();
 
             var dictionaryResult = GetFromDictionaryOrAdd(subtreesDictionary, key);
 

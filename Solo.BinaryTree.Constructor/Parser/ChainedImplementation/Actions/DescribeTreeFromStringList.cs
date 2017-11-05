@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Solo.BinaryTree.Constructor.Core;
+using Solo.BinaryTree.Constructor.Infrastructure;
 
 namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 {
@@ -19,7 +20,7 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 
         public virtual CommandResult<BinaryTreeNodeModel> ParseString(string line)
         {
-            var members = line.Split(new[] {' ', ','}, StringSplitOptions.RemoveEmptyEntries);
+            var members = line.Split(SpecialIndicators.NodeDescriptionDelimiters, StringSplitOptions.RemoveEmptyEntries);
 
             if (members.Length != 3)
             {

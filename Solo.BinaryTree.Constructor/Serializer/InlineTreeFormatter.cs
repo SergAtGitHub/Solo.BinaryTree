@@ -4,7 +4,7 @@
     {
         public static readonly InlineTreeFormatter Instance = new InlineTreeFormatter();
 
-        public InlineTreeFormatter() : this("{0}, {1}, {2}")
+        public InlineTreeFormatter() : this("{0} => {1} - {2}")
         {
         }
 

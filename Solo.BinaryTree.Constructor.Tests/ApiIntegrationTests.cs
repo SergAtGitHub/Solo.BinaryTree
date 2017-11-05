@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Solo.BinaryTree.Constructor.Infrastructure;
 using Solo.BinaryTree.Constructor.Parser.ChainedImplementation;
@@ -64,7 +65,7 @@ A, Quick, Brown";
                     .AddLeftAndStay("The").AddRightAndNavigateBack("Lazy").AddRightAndNavigateToIt("Jumps")
                     .AddLeftAndNavigateToRoot("Dog").AddRightAndNavigateToIt("Brown").AddRightAndNavigateToRoot("Over");
 
-            string actualResult = Api.Serialize(tree);
+            string actualResult = Api.Serialize(tree, "{0}, {1}, {2}");
 
             CollectionAssert.AreEquivalent(
                 expectedResult.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries),

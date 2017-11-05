@@ -49,8 +49,10 @@
     <Compile Include="Core\BaseAction.cs" />
     <Compile Include="Core\CommandResult.cs" />
     <Compile Include="Core\IAction.cs" />
+    <Compile Include="Infrastructure\SpecialIndicators.cs" />
     <Compile Include="Infrastructure\Traverse\DepthTraverse.cs" />
     <Compile Include="Infrastructure\Traverse\ITreeTraversalAlgorythm.cs" />
+    <Compile Include="Infrastructure\Traverse\LeavesTraverse.cs" />
     <Compile Include="Parser\BinaryTreeNodeModel.cs" />
     <Compile Include="Parser\BinaryTreeParseArguments.cs" />
     <Compile Include="Parser\ChainedImplementation\Actions\CreateTreeFromParsedValues.cs" />
@@ -62,7 +64,13 @@
     <Compile Include="Parser\ChainedImplementation\ChainedBinaryTreeParser.cs" />
     <Compile Include="Parser\IBinaryTreeParseAlgorythm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serializer\InlineTreeFormatter.cs" />
+    <Compile Include="Serializer\ITreeFormatter.cs" />
     <Compile Include="Serializer\ITreeSerializer.cs" />
+    <Compile Include="Serializer\SerializeToTextWriter.cs" />
+    <Compile Include="Serializer\TreeSerializationArgs.cs" />
+    <Compile Include="Serializer\TreeSerializeAction.cs" />
+    <Compile Include="Serializer\TreeSerializer.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="Infrastructure\TreeComparer.cs" />
     <Compile Include="Infrastructure\TreeExtensions.cs" />
