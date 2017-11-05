@@ -8,7 +8,7 @@ namespace Solo.BinaryTree.Constructor.Parser
     {
         public TextReader TextReader { get; set; }
         public IEnumerable<string> TextStrings { get; set; }
-        public IEnumerable<BinaryTreeNodeModel> NodeModels { get; set; }
+        public IEnumerable<CommandResult<BinaryTreeNodeModel>> NodeModels { get; set; }
         public Dictionary<string, Tree> SubtreesDictionary { get; } = new Dictionary<string, Tree>();
     }
 }

@@ -9,9 +9,15 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
     {
         public override void Execute(BinaryTreeParseArguments args)
         {
-            foreach (var model in args.NodeModels)
+            foreach (var getModelResult in args.NodeModels)
             {
-                CommandResult result = this.ProcessModelInDictionary(model, args.SubtreesDictionary);
+                if (getModelResult.IsFailure)
+                {
+                    args.Messages.Add(getModelResult.FailureMessage);
+                    return;
+                }
+
+                CommandResult result = this.ProcessModelInDictionary(getModelResult.Result, args.SubtreesDictionary);
 
                 if (result.IsFailure)
                 {

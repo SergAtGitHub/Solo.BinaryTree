@@ -94,5 +94,27 @@ Brown, #, Over
 
             Assert.IsTrue(TreeComparer.Instance.Equals(actualResult, expectedResult));
         }
+
+        [TestMethod]
+        public void WhenTwoWordsInString_AlgorythmShouldComplain()
+        {
+            var input = @"A, Quick, Brown
+Quick, Fox, Jumps
+Fox, The
+";
+
+            string expectedError = string.Format(ChainedBinaryTreeMessages.TheStringWasNotInExpectedFormat,
+                "Fox, The");
+
+            try
+            {
+                Api.BuildTreeByStringInput(input);
+                Assert.Fail("Algorythm should not pass.");
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual(expectedError, e.Message);
+            }
+        }
     }
 }
