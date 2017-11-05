@@ -22,6 +22,14 @@ namespace Solo.BinaryTree.Constructor
             return BuildTree((TextReader) streamReader);
         }
 
+        public static Tree BuildTreeByFilePath(string path)
+        {
+            using (StreamReader streamReader = new StreamReader(path))
+            {
+                return BuildTree(streamReader);
+            }
+        }
+
         public static Tree BuildTreeByStringInput(string input)
         {
             using (StringReader stringReader = new StringReader(input))
