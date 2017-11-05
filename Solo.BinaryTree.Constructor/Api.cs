@@ -65,7 +65,8 @@ namespace Solo.BinaryTree.Constructor
                 {
                     TextWriter = stringWriter,
                     Formatter = formatter,
-                    Tree = tree
+                    Tree = tree,
+                    SkipEmptyLines = true
                 };
 
                 TreeSerializer.Instance.Serialize(arguments);

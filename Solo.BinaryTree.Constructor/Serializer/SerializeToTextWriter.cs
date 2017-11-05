@@ -14,9 +14,17 @@ namespace Solo.BinaryTree.Constructor.Serializer
 
         public override void Execute(TreeSerializationArgs args)
         {
+            var skipEmpty = args.SkipEmptyLines.HasValue && args.SkipEmptyLines.Value;
+
             foreach (var node in TreeTraversalAlgorythm.GetAll(args.Tree))
             {
-                args.TextWriter.WriteLine(args.Formatter.Format(node));
+                var formattedString = args.Formatter.Format(node);
+                if (skipEmpty && string.IsNullOrWhiteSpace(formattedString))
+                {
+                    continue;
+                }
+
+                args.TextWriter.WriteLine(formattedString);
             }
         }
 

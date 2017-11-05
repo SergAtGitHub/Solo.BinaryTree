@@ -7,5 +7,6 @@ namespace Solo.BinaryTree.Constructor.Serializer
         public Tree Tree { get; set; }
         public TextWriter TextWriter { get; set; }
         public ITreeFormatter Formatter { get; set; }
+        public bool? SkipEmptyLines { get; set; }
     }
 }

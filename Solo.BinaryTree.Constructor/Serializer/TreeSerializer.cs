@@ -5,7 +5,11 @@ namespace Solo.BinaryTree.Constructor.Serializer
 {
     public class TreeSerializer : ITreeSerializer
     {
-        public static readonly TreeSerializer Instance = new TreeSerializer(new []{new SerializeToTextWriter()});
+        public static readonly TreeSerializer Instance = new TreeSerializer(new TreeSerializeAction[]
+        {
+            new MakeDescisionAboutEmptyStrings(true),
+            new SerializeToTextWriter()
+        });
 
         public TreeSerializer(IEnumerable<IAction<TreeSerializationArgs>> actions)
         {

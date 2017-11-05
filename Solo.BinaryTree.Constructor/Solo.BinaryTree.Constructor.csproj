@@ -67,6 +67,7 @@
     <Compile Include="Serializer\InlineTreeFormatter.cs" />
     <Compile Include="Serializer\ITreeFormatter.cs" />
     <Compile Include="Serializer\ITreeSerializer.cs" />
+    <Compile Include="Serializer\MakeDescisionAboutEmptyStrings.cs" />
     <Compile Include="Serializer\SerializeToTextWriter.cs" />
     <Compile Include="Serializer\TreeSerializationArgs.cs" />
     <Compile Include="Serializer\TreeSerializeAction.cs" />
