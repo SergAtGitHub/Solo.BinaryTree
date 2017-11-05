@@ -5,6 +5,7 @@ using Solo.BinaryTree.Constructor.Infrastructure;
 using Solo.BinaryTree.Constructor.Infrastructure.Builders;
 using Solo.BinaryTree.Constructor.Infrastructure.Traverse;
 using Solo.BinaryTree.Constructor.Parser.ChainedImplementation;
+using Solo.BinaryTree.Constructor.Serializer;
 
 namespace Solo.BinaryTree.Constructor.Tests
 {
@@ -14,17 +15,11 @@ namespace Solo.BinaryTree.Constructor.Tests
         [TestMethod]
         public void ExampleFromTask_ShouldReturnAnExpectedTree()
         {
-            string input = 
-@"Fox, The, Lazy
-Quick, Fox, Jumps
-Jumps, Dog, #
-Brown, #, Over
-A, Quick, Brown";
+            string input = TaskData.ExampleTreeInput;
+
             
-            var expectedResult =
-                Tree.Create("A").Result.AddLeftAndNavigateToIt("Quick").AddLeftAndNavigateToIt("Fox")
-                    .AddLeftAndStay("The").AddRightAndNavigateBack("Lazy").AddRightAndNavigateToIt("Jumps")
-                    .AddLeftAndNavigateToRoot("Dog").AddRightAndNavigateToIt("Brown").AddRightAndNavigateToRoot("Over");
+            var expectedResult = TaskData.ExpectedTree;
+
             
                 Tree actualResult = Api.BuildTreeByStringInput(input);
 
@@ -55,19 +50,11 @@ Fox, Not, Active";
         [TestMethod]
         public void TreeInputGenerator_ShouldGenerateData()
         {
-            string expectedResult =
-                @"Fox, The, Lazy
-Quick, Fox, Jumps
-Jumps, Dog, #
-Brown, #, Over
-A, Quick, Brown";
+            string expectedResult = TaskData.ExampleTreeInput;
 
-            var tree =
-                Tree.Create("A").Result.AddLeftAndNavigateToIt("Quick").AddLeftAndNavigateToIt("Fox")
-                    .AddLeftAndStay("The").AddRightAndNavigateBack("Lazy").AddRightAndNavigateToIt("Jumps")
-                    .AddLeftAndNavigateToRoot("Dog").AddRightAndNavigateToIt("Brown").AddRightAndNavigateToRoot("Over");
+            var tree = TaskData.ExpectedTree;
 
-            string actualResult = Api.Serialize(tree, "{0}, {1}, {2}");
+            string actualResult = Api.Serialize(tree, InlineTreeFormatter.WellKnownFormats.CommaAndSpaceSeparated);
 
             CollectionAssert.AreEquivalent(
                 expectedResult.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries),
@@ -88,10 +75,7 @@ Brown, #, Over
 ";
 
 
-            var expectedResult =
-                Tree.Create("A").Result.AddLeftAndNavigateToIt("Quick").AddLeftAndNavigateToIt("Fox")
-                    .AddLeftAndStay("The").AddRightAndNavigateBack("Lazy").AddRightAndNavigateToIt("Jumps")
-                    .AddLeftAndNavigateToRoot("Dog").AddRightAndNavigateToIt("Brown").AddRightAndNavigateToRoot("Over");
+            var expectedResult = TaskData.ExpectedTree;
 
             Tree actualResult = Api.BuildTreeByStringInput(input);
 
@@ -170,6 +154,22 @@ Fox, The
             }
 
             
+        }
+
+        [TestMethod]
+        public void Serializer_ShouldProduceDataFromTheTask_WhenReadableTextIsComing()
+        {
+            var readableText = "Quick Brown Fox Jumps # Over The Lazy Dog";
+
+            var builder = new LineByLineTreeBuilder(Tree.Create("A").Result);
+            builder.AddData(readableText.Split(new []{' '}, StringSplitOptions.RemoveEmptyEntries));
+
+            string actualResult = Api.Serialize(builder.Root, InlineTreeFormatter.WellKnownFormats.CommaAndSpaceSeparated);
+            string expectedResult = TaskData.ExampleTreeInput;
+
+            CollectionAssert.AreEquivalent(
+                expectedResult.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries),
+                actualResult.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries));
         }
     }
 }

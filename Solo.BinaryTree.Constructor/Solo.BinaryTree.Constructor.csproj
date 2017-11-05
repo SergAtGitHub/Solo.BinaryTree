@@ -49,6 +49,7 @@
     <Compile Include="Core\BaseAction.cs" />
     <Compile Include="Core\CommandResult.cs" />
     <Compile Include="Core\IAction.cs" />
+    <Compile Include="Infrastructure\Builders\LineByLineTreeBuilder.cs" />
     <Compile Include="Infrastructure\SpecialIndicators.cs" />
     <Compile Include="Infrastructure\Traverse\DepthTraverse.cs" />
     <Compile Include="Infrastructure\Traverse\ITreeTraversalAlgorythm.cs" />

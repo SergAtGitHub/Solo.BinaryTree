@@ -4,8 +4,16 @@ namespace Solo.BinaryTree.Constructor.Serializer
 {
     public class InlineTreeFormatter : ITreeFormatter
     {
-        public static readonly string DefaultTreeFormat =
-            "{0} " + SpecialIndicators.RootToNodesDelimiter + " {1} " + SpecialIndicators.NodeToNodeDelimiter + " {2}"; 
+        public static class WellKnownFormats
+        {
+            public static readonly string CommaAndSpaceSeparated = "{0}, {1}, {2}";
+
+            public static readonly string BeautyTreeSeparated =
+                "{0} " + SpecialIndicators.RootToNodesDelimiter + 
+                " {1} " + SpecialIndicators.NodeToNodeDelimiter + " {2}";
+        }
+
+        public static readonly string DefaultTreeFormat = WellKnownFormats.BeautyTreeSeparated;
         public static readonly InlineTreeFormatter Instance = new InlineTreeFormatter(DefaultTreeFormat);
         
         public InlineTreeFormatter(string messageFormat)

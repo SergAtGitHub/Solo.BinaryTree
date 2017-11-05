@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="ApiIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
