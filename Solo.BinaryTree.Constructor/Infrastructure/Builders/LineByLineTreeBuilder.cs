@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Solo.BinaryTree.Constructor.Infrastructure.Traverse;
 
 namespace Solo.BinaryTree.Constructor.Infrastructure.Builders
@@ -26,7 +27,7 @@ namespace Solo.BinaryTree.Constructor.Infrastructure.Builders
             {
                 Tree node = LatestLevel.Dequeue();
                 if (node == null) continue;
-                
+
                 if (dataCounter >= data.Length) break;
                 var dataObject = data[dataCounter++];
                 if (dataObject != SpecialIndicators.NullNodeIndicator)

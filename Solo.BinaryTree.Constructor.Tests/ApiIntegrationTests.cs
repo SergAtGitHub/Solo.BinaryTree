@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Solo.BinaryTree.Constructor.Infrastructure;
@@ -17,13 +18,13 @@ namespace Solo.BinaryTree.Constructor.Tests
         {
             string input = TaskData.ExampleTreeInput;
 
-            
+
             var expectedResult = TaskData.ExpectedTree;
 
-            
-                Tree actualResult = Api.BuildTreeByStringInput(input);
 
-                Assert.IsTrue(TreeComparer.Instance.Equals(actualResult, expectedResult));
+            Tree actualResult = Api.BuildTreeByStringInput(input);
+
+            Assert.IsTrue(TreeComparer.Instance.Equals(actualResult, expectedResult));
         }
 
         [TestMethod]
@@ -57,8 +58,8 @@ Fox, Not, Active";
             string actualResult = Api.Serialize(tree, InlineTreeFormatter.WellKnownFormats.CommaAndSpaceSeparated);
 
             CollectionAssert.AreEquivalent(
-                expectedResult.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries),
-                actualResult.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries));
+                expectedResult.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries),
+                actualResult.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         [TestMethod]
@@ -153,7 +154,7 @@ Fox, The
                 }
             }
 
-            
+
         }
 
         [TestMethod]
@@ -162,7 +163,7 @@ Fox, The
             var readableText = "Quick Brown Fox Jumps # Over The Lazy Dog";
 
             var builder = new LineByLineTreeBuilder(Tree.Create("A").Result);
-            builder.AddData(readableText.Split(new []{' '}, StringSplitOptions.RemoveEmptyEntries));
+            builder.AddData(readableText.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 
             string actualResult = Api.Serialize(builder.Root, InlineTreeFormatter.WellKnownFormats.CommaAndSpaceSeparated);
             string expectedResult = TaskData.ExampleTreeInput;
