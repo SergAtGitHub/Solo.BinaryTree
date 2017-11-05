@@ -2,6 +2,8 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Solo.BinaryTree.Constructor.Infrastructure;
+using Solo.BinaryTree.Constructor.Infrastructure.Builders;
+using Solo.BinaryTree.Constructor.Infrastructure.Traverse;
 using Solo.BinaryTree.Constructor.Parser.ChainedImplementation;
 
 namespace Solo.BinaryTree.Constructor.Tests
@@ -116,6 +118,58 @@ Fox, The
             {
                 Assert.AreEqual(expectedError, e.Message);
             }
+        }
+
+        [TestMethod]
+        public void SerializedTree_ShouldBeWellUnderstoodByParser()
+        {
+            var builder = new LineByLineTreeBuilder();
+
+            builder.AddData(Enumerable.Range(1, 1024).Select(x => x.ToString()).ToArray());
+            string input = Api.Serialize(builder.Root);
+
+
+            var actualTree = Api.BuildTreeByStringInput(input);
+            var expectedTree = builder.Root;
+
+            Assert.IsTrue(TreeComparer.Instance.Equals(expectedTree, actualTree));
+        }
+
+        [TestMethod]
+        public void DeserializedTree_ShouldNotBeTheSameAsSerialized()
+        {
+            var builder = new LineByLineTreeBuilder();
+
+            builder.AddData(Enumerable.Range(1, 1024).Select(x => x.ToString()).ToArray());
+            string input = Api.Serialize(builder.Root);
+
+
+            var actualTree = Api.BuildTreeByStringInput(input);
+            var expectedTree = builder.Root;
+
+            var traverseAlgorythm = DepthTraverse.Instance;
+
+            using (var actualEnumerator = traverseAlgorythm.GetAll(actualTree).GetEnumerator())
+            {
+                using (var expectedEnumerator = traverseAlgorythm.GetAll(expectedTree).GetEnumerator())
+                {
+                    bool actualMove, expectedMove;
+                    do
+                    {
+                        actualMove = actualEnumerator.MoveNext();
+                        expectedMove = expectedEnumerator.MoveNext();
+
+                        Assert.AreEqual(actualMove, expectedMove);
+
+                        var actualNode = actualEnumerator.Current;
+                        var expectedNode = expectedEnumerator.Current;
+
+                        Assert.AreNotSame(actualNode, expectedNode);
+                    } while (actualMove && expectedMove);
+                }
+            }
+
+            
         }
     }
 }

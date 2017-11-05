@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Solo.BinaryTree.Constructor.Infrastructure.Traverse;
 
 namespace Solo.BinaryTree.Constructor.Infrastructure
 {
@@ -58,35 +56,5 @@ namespace Solo.BinaryTree.Constructor.Infrastructure
             return tree.Parent;
         }
 
-    }
-
-    public class LineByLineTreeBuilder
-    {
-        public Tree Root { get; }
-        protected Queue<Tree> LatestLevel { get; } = new Queue<Tree>();
-
-        public LineByLineTreeBuilder() : this(Tree.Create("root").Result)
-        {
-        }
-
-        public LineByLineTreeBuilder(Tree root)
-        {
-            Root = root;
-            LatestLevel.Enqueue(root);
-        }
-
-        public void AddLine(params string[] data)
-        {
-            var traverse = new LeavesTraverse();
-            var dataCounter = 0;
-
-            foreach (var leaf in traverse.GetAll(Root))
-            {
-                if (dataCounter >= data.Length) break;
-                leaf.AddNode(data[dataCounter++], BinaryChildrenEnum.Left);
-                if (dataCounter >= data.Length) break;
-                leaf.AddNode(data[dataCounter++], BinaryChildrenEnum.Right);
-            }
-        }
     }
 }
