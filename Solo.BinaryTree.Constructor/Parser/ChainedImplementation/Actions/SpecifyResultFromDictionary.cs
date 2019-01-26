@@ -9,12 +9,12 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
         {
             var tree = args.SubtreesDictionary.First().Value;
             
-            args.Result = tree.NavigateToRoot();
+            args.SetResultWithInformation(tree.NavigateToRoot(), "Result is set.");
         }
 
         public override bool CanExecute(BinaryTreeParseArguments args)
         {
-            return base.CanExecute(args) && args.SubtreesDictionary.Count > 0 && args.Messages.Count == 0;
+            return args.SubtreesDictionary.Count > 0 && args.GetAllMessages().Length == 0;
         }
     }
 }

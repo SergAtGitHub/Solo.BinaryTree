@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Pipelines, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pipelines.Net.1.1.5\lib\net45\Pipelines.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,14 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
-    <Compile Include="Core\CommandArguments.cs" />
     <Compile Include="Core\IQueryAnalyzer.cs" />
-    <Compile Include="Core\QueryArguments.cs" />
     <Compile Include="Core\QueryResultAnalyzer.cs" />
     <Compile Include="Infrastructure\BinaryChildrenEnum.cs" />
-    <Compile Include="Core\BaseAction.cs" />
     <Compile Include="Core\CommandResult.cs" />
-    <Compile Include="Core\IAction.cs" />
     <Compile Include="Infrastructure\Builders\LineByLineTreeBuilder.cs" />
     <Compile Include="Infrastructure\SpecialIndicators.cs" />
     <Compile Include="Infrastructure\Traverse\DepthTraverse.cs" />

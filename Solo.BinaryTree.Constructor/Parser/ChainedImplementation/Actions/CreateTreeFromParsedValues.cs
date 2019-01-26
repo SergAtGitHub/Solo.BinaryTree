@@ -13,7 +13,7 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
             {
                 if (getModelResult.IsFailure)
                 {
-                    args.Messages.Add(getModelResult.FailureMessage);
+                    args.AddError(getModelResult.FailureMessage);
                     return;
                 }
 
@@ -21,7 +21,7 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 
                 if (result.IsFailure)
                 {
-                    args.Messages.Add(result.FailureMessage);
+                    args.AddError(result.FailureMessage);
                     return;
                 }
             }
@@ -94,7 +94,7 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 
         public override bool CanExecute(BinaryTreeParseArguments args)
         {
-            return base.CanExecute(args) && args.NodeModels != null && args.SubtreesDictionary != null;
+            return args.NodeModels != null && args.SubtreesDictionary != null;
         }
     }
 }

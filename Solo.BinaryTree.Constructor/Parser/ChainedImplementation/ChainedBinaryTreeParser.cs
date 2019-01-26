@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using Pipelines;
+using Pipelines.Implementations.Pipelines;
 using Solo.BinaryTree.Constructor.Core;
 using Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions;
 
 namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation
 {
-    public class ChainedBinaryTreeParser : IBinaryTreeParseAlgorythm
+    public class ChainedBinaryTreeParser : PipelineExecutor, IBinaryTreeParseAlgorythm
     {
         public static readonly ChainedBinaryTreeParser Instance = new ChainedBinaryTreeParser(new BinaryTreeParseAction[]
         {
@@ -14,18 +18,16 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation
             new SpecifyResultFromDictionary()
         });
 
-        public ChainedBinaryTreeParser(IEnumerable<BinaryTreeParseAction> actions)
+        public ChainedBinaryTreeParser(IEnumerable<BinaryTreeParseAction> actions) : base(PredefinedPipeline.FromProcessors(actions))
         {
             ResultAnalyzer = new QueryResultAnalyzer<Tree>();
-            Actions = new List<IAction<BinaryTreeParseArguments>>(actions);
         }
 
-        public List<IAction<BinaryTreeParseArguments>> Actions { get; }
         public IResultAnalyzer<Tree> ResultAnalyzer { get; }
 
         public CommandResult<Tree> ParseBinaryTree(BinaryTreeParseArguments arguments)
         {
-            Actions.ForEach(action => action.Process(arguments));
+            base.Execute(arguments).Wait();
             return ResultAnalyzer.Analyze(arguments);
         }
     }

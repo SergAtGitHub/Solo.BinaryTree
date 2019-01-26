@@ -1,4 +1,5 @@
-﻿using Solo.BinaryTree.Constructor.Infrastructure.Traverse;
+﻿using System.Threading.Tasks;
+using Solo.BinaryTree.Constructor.Infrastructure.Traverse;
 
 namespace Solo.BinaryTree.Constructor.Serializer
 {
@@ -12,7 +13,7 @@ namespace Solo.BinaryTree.Constructor.Serializer
             set => treeTraversalAlgorythm = value;
         }
 
-        public override void Execute(TreeSerializationArgs args)
+        public override Task SafeExecute(TreeSerializationArgs args)
         {
             var skipEmpty = args.SkipEmptyLines.HasValue && args.SkipEmptyLines.Value;
 
@@ -26,11 +27,13 @@ namespace Solo.BinaryTree.Constructor.Serializer
 
                 args.TextWriter.WriteLine(formattedString);
             }
+
+            return Done;
         }
 
-        public override bool CanExecute(TreeSerializationArgs args)
+        public override bool SafeCondition(TreeSerializationArgs args)
         {
-            return base.CanExecute(args) && args.TextWriter != null && args.Tree != null && args.Formatter != null;
+            return base.SafeCondition(args) && args.TextWriter != null && args.Tree != null && args.Formatter != null;
         }
     }
 }

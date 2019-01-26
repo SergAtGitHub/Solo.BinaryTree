@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using Pipelines;
+using Pipelines.Implementations.Pipelines;
 using Solo.BinaryTree.Constructor.Core;
 
 namespace Solo.BinaryTree.Constructor.Serializer
 {
-    public class TreeSerializer : ITreeSerializer
+    public class TreeSerializer : PipelineExecutor, ITreeSerializer
     {
         public static readonly TreeSerializer Instance = new TreeSerializer(new TreeSerializeAction[]
         {
@@ -11,16 +13,13 @@ namespace Solo.BinaryTree.Constructor.Serializer
             new SerializeToTextWriter()
         });
 
-        public TreeSerializer(IEnumerable<IAction<TreeSerializationArgs>> actions)
+        public TreeSerializer(IEnumerable<IProcessor> actions) : base(PredefinedPipeline.FromProcessors(actions))
         {
-            Actions = new List<IAction<TreeSerializationArgs>>(actions);
         }
-
-        public List<IAction<TreeSerializationArgs>> Actions { get; }
-
+        
         public CommandResult Serialize(TreeSerializationArgs arguments)
         {
-            Actions.ForEach(action => action.Process(arguments));
+            base.Execute(arguments).Wait();
             return CommandResult.Ok();
         }
     }

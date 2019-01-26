@@ -1,4 +1,6 @@
-﻿namespace Solo.BinaryTree.Constructor.Serializer
+﻿using System.Threading.Tasks;
+
+namespace Solo.BinaryTree.Constructor.Serializer
 {
     public class MakeDescisionAboutEmptyStrings : TreeSerializeAction
     {
@@ -9,14 +11,15 @@
             SkipEmpty = skipEmpty;
         }
 
-        public override void Execute(TreeSerializationArgs args)
+        public override Task SafeExecute(TreeSerializationArgs args)
         {
             args.SkipEmptyLines = SkipEmpty;
+            return Done;
         }
 
-        public override bool CanExecute(TreeSerializationArgs args)
+        public override bool SafeCondition(TreeSerializationArgs args)
         {
-            return base.CanExecute(args) && !args.SkipEmptyLines.HasValue;
+            return base.SafeCondition(args) && !args.SkipEmptyLines.HasValue;
         }
     }
 }

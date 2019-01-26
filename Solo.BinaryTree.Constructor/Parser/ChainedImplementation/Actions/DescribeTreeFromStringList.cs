@@ -38,7 +38,7 @@ namespace Solo.BinaryTree.Constructor.Parser.ChainedImplementation.Actions
 
         public override bool CanExecute(BinaryTreeParseArguments args)
         {
-            return base.CanExecute(args) && args.TextStrings != null && args.NodeModels == null;
+            return args.TextStrings != null && args.NodeModels == null;
         }
     }
 }

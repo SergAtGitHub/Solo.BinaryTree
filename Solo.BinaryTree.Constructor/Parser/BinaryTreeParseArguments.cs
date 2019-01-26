@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Pipelines;
 using Solo.BinaryTree.Constructor.Core;
 
 namespace Solo.BinaryTree.Constructor.Parser
 {
-    public class BinaryTreeParseArguments : QueryArguments<Tree>
+    public class BinaryTreeParseArguments : QueryContext<Tree>
     {
         public TextReader TextReader { get; set; }
         public IEnumerable<string> TextStrings { get; set; }
